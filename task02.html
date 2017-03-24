@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>基础JavaScript练习（一）</title>
+	</head>
+	<style>
+		ul {padding-left: 0;}
+		li{
+			display: inline-block;
+			width: 50px;
+			height: 50px;
+			background-color: red;
+			color: #fff;
+			margin: 0 10px;
+			line-height: 50px;
+			padding:10px;
+			overflow: auto;
+		}
+		li:hover{cursor: pointer;}
+		
+	</style>
+	<body>
+		<div>
+			<input type="text" id="inputText" placeholder="请输入数字"/>
+			<input type="button" id="inputLeftIn" value="左侧入"/>
+			<input type="button" id="inputRightIn" value="右侧入"/>
+			<input type="button" id="inputLeftOut" value="左侧出"/>
+			<input type="button" id="inputRightOut" value="右侧出"/>
+		</div>
+		<ul id="content"></ul>
+		<script type="text/javascript">
+			var txt = document.getElementById('inputText');
+			var content = document.getElementById("content");
+			
+			document.getElementById("inputText").addEventListener("blur",function(){
+				if(!txt.value.match(/^[0-9]*$/)){
+					alert("请输入数字!");
+					txt.value = "";
+				}
+			},false)
+			
+			//左进
+			document.getElementById("inputLeftIn").addEventListener("click",function() {
+				if(txt.value == "" || txt.value == null ){
+					return false
+				}
+				var newItem = document.createElement("li");
+				var textnode = document.createTextNode(txt.value);
+				newItem.appendChild(textnode);
+				
+				content.insertBefore(newItem,content.childNodes[0]);
+			},false)
+			
+			//右进
+			document.getElementById("inputRightIn").addEventListener("click",function(){
+				if(txt.value == "" || txt.value == null ){
+					return false
+				}
+				var newItem =document.createElement("li");
+				var textnode = document.createTextNode(txt.value);
+				newItem.appendChild(textnode);
+				content.appendChild(newItem);
+			},false)
+			
+			//左出
+			document.getElementById("inputLeftOut").addEventListener("click",function(){
+				if(content.childNodes.length == 0 ){
+					alert("还没有数字，请先输入");
+					return false;
+				}
+				alert("删除的最左侧节点："+content.firstChild.innerHTML);
+				content.removeChild(content.firstChild);
+			},false)
+			
+			//右出
+			document.getElementById("inputRightOut").addEventListener("click",function(){
+				if(content.childNodes.length == 0){
+					alert("还没有数字，请先输入数字");
+					return
+				}
+				alert("删除的最左侧节点："+content.firstChild.innerHTML);
+				content.removeChild(content.firstChild);
+			},false)
+			
+			//给已出现的li都添加点击事件
+			content.addEventListener("click",function(e){
+				content.removeChild(e.target);
+			},false)
+
+		</script>
+		
+	</body>
+</html>
